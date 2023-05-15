@@ -23,7 +23,7 @@ from backend_api.views import PostView, user, register_view, login_view, logout_
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', PostView.as_view(), name='post'),
+    path('api/post/', PostView.as_view(), name='post'),
     # path('api/user/', user, name='user'),
     path('api/register/', register_view, name='register'),
     path('api/auth/', login_view, name='auth'),

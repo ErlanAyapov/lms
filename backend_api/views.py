@@ -43,7 +43,7 @@ def register_view(request):
 		serializer.save()
 		return Response({'success': 'Пользователь зарегистрировавлся успешно!'}, status=201)
 	else:
-		return Response(serializer.errors, status=400)
+		return Response({'error': 'Имя пользователя занято!'}, status=400)
  
 
 @api_view(['POST'])
