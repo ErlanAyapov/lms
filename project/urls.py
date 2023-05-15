@@ -17,10 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.urls import re_path as url
-from backend_api.views import PostView
+from backend_api.views import PostView, user, register_view, login_view, logout_view
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', PostView.as_view(), name='post')
+    path('', PostView.as_view(), name='post'),
+    # path('api/user/', user, name='user'),
+    path('api/register/', register_view, name='register'),
+    path('api/auth/', login_view, name='auth'),
+    path('api/logout/', logout_view, name='logout'),
 ]
