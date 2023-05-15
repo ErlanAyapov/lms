@@ -1,31 +1,22 @@
-"""
-URL configuration for project project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
 from django.urls import re_path as url
-from backend_api.views import PostView, user, register_view, login_view, logout_view
-
+from backend_api.views import PostView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/post/', PostView.as_view(), name='post'),
-    # path('api/user/', user, name='user'),
-    path('api/register/', register_view, name='register'),
-    path('api/auth/', login_view, name='auth'),
-    path('api/logout/', logout_view, name='logout'),
+    path('api/post/', PostView.as_view(), name='post'), 
+    path('members/', include('members.urls'))
 ]
+
+'''
+Регистрация 
+members/api/register
+
+Авторизация
+members/api/auth
+
+Выход
+members/api/logout
+'''
