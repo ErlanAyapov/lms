@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
-from .models import Post
+from .models import Post, Instruction
 from .serializer import PostSerializer 
 
 
@@ -20,3 +20,10 @@ class PostView(APIView):
 		if serializer.is_valid(raise_exception=True):
 			serializer.save()
 			return Response(serializer.data)
+
+
+def main_view(request):
+	data = {
+		'instruction': Instruction.objects.all()
+	}
+	return render(request, 'index.html', data)

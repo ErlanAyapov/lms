@@ -28,7 +28,8 @@ INSTALLED_APPS = [
     'backend_api',
     'members',
     'rest_framework',
-    'corsheaders',
+    'corsheaders', 
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
