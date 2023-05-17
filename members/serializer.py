@@ -1,11 +1,13 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from .models import UserCustomer
+
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
-		fields = ['username', 'password', 'email']
+		fields = ['username', 'first_name', 'last_name', 'email', 'password']
 
 
 class LoginSerializer(serializers.Serializer):
@@ -14,6 +16,12 @@ class LoginSerializer(serializers.Serializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'email', 'password')
+	class Meta:
+		model = User
+		fields = ('id', 'username', 'email', 'password')
+
+
+class UserCustomerSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = UserCustomer
+		fields = ('user', 'image', 'phone_number', 'user_role', 'birth_day', 'biography', 'user_ip', 'address', 'mail_index')
