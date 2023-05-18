@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from .models import UserCustomer
 
 
-
 class UserRegisterSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
@@ -25,3 +24,10 @@ class UserCustomerSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = UserCustomer
 		fields = ('user', 'image', 'phone_number', 'user_role', 'birth_day', 'biography', 'user_ip', 'address', 'mail_index')
+
+
+
+class UserDetailsSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = User
+		fields = '__all__'

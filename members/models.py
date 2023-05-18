@@ -35,3 +35,6 @@ class UserCustomer(models.Model):
 	user_ip		= models.CharField(verbose_name = 'IP', max_length = 100, blank = True)
 	address		= models.CharField(verbose_name = 'Адрес', max_length = 90, blank = True)
 	mail_index	= models.CharField(verbose_name = 'Индекс почты', max_length=15, blank = True)
+
+	def __str__(self):
+		return self.user.username

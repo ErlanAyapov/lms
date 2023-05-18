@@ -5,7 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from .serializer import UserRegisterSerializer, UserSerializer, LoginSerializer, UserCustomerSerializer
 from rest_framework.request import Request
 from rest_framework.response import Response
-
+from rest_framework import generics
+from .serializer import UserDetailsSerializer
 
 
 User = get_user_model()
@@ -64,3 +65,10 @@ def user_customer(request):
 		return Response({'success': 'Регистрация завершена!'}, status = 201)
 	else:
 		return Response(serializer.errors, status = 400)
+
+
+class ProfileDetailAPIView(generics.RetrieveUpdateAPIView):
+	serializer_class = UserDetailsSerializer
+
+	def get_object(self):
+		return self.request.user
