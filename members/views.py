@@ -74,20 +74,20 @@ def user_customer_create(request):
 @api_view(['GET', 'PUT', 'DELETE'])
 def user_customer_detail(request, pk): 
 	try:
-		snippet = UserCustomer.objects.get(pk=pk)
+		user_customer = UserCustomer.objects.get(pk=pk)
 		if request.method == 'GET':
-			serializer = UserCustomerSerializer(snippet)
+			serializer = UserCustomerSerializer(user_customer)
 			return Response(serializer.data)
 
 		elif request.method == 'PUT': 
-			serializer = UserCustomerSerializer(snippet, data=request.data)
+			serializer = UserCustomerSerializer(user_customer, data=request.data)
 			if serializer.is_valid():
 				serializer.save()
 				return Response(serializer.data)
 			return Response({"message":"Данные не корректный!"}, status=400)
 
 		elif request.method == 'DELETE':
-			snippet.delete()
+			user_customer.delete()
 			return Response({"message":"Данные удалены!"}, status=204)
 	except UserCustomer.DoesNotExist:
 		return Response({"message":"Данные не найдены!"}, status=404)
