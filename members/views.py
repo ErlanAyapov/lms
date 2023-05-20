@@ -2,21 +2,15 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from django.contrib.auth import get_user_model 
 from django.contrib.auth import authenticate, login, logout 
-from .serializer import *
+from .serializers import *
 from rest_framework.request import Request
-from rest_framework.response import Response
-from rest_framework import generics 
-from rest_framework.views import APIView 
-from rest_framework import status
-from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser  
+from rest_framework.response import Response 
+# from rest_framework.views import APIView  
 
 
 User = get_user_model()
 
-
-# Create your views here.
+ 
 @api_view()
 def user(request: Request):
 	return Response({
@@ -32,8 +26,8 @@ def register_view_api_view(request):
 		user = serializer.save()
 		login(request, user)
 		return Response(serializer.data, status=201)
-	else:
-		return Response(serializer.errors, status=400)
+
+	return Response({"message":"Данные не корректный!"}, status=400)
 
 
 @api_view(['POST'])
@@ -47,11 +41,8 @@ def login_view_api_view(request):
 		user = authenticate(request, username = username, password = password)
 		if user is not None:
 			login(request, user)
-			return Response({'success': 'Авторизация пройдена!'}, status = 201)
-		else:
-			return Response({'error': 'Неверный имя пользователя или пороль!'}, status = 400)
-	else:
-		return Response(serializer.errors, status = 400)
+			return Response({'success': 'Авторизация пройдена!'}, status = 201) 
+	return Response({"message":"Данные не корректный!"}, status = 400)
 
 
 @api_view(['POST'])
@@ -68,7 +59,7 @@ def user_customer_api_view(request):
 		serializer.save()
 		return Response({'success': 'Регистрация завершена!'}, status = 201)
 	else:
-		return Response(serializer.errors, status = 400)
+		return Response({"message":"Данные не корректный!"}, status = 400)
 
 @api_view(['POST'])
 def user_customer_create(request):  
@@ -77,7 +68,7 @@ def user_customer_create(request):
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data)
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+		return Response({"message":"Данные не корректный!"}, status=400)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -93,15 +84,13 @@ def user_customer_detail(request, pk):
 			if serializer.is_valid():
 				serializer.save()
 				return Response(serializer.data)
-			return Response(serializer.errors, status=400)
+			return Response({"message":"Данные не корректный!"}, status=400)
 
 		elif request.method == 'DELETE':
 			snippet.delete()
-			return HttpResponse(status=204)
+			return Response({"message":"Данные удалены!"}, status=204)
 	except UserCustomer.DoesNotExist:
-		return Response(status=404)
-
-
+		return Response({"message":"Данные не найдены!"}, status=404)
 
 
 @api_view(['GET', 'PUT'])
@@ -116,7 +105,7 @@ def user_detail(request, pk):
 			if serializer.is_valid():
 				serializer.save()
 				return Response( UserDetailsSerializer(user).data )
-			return Response(serializer.errors, status=400)
+			return Response({"message":"Данные не корректный!"}, status=400)
 
 	except User.DoesNotExist:
-		return Response(status=404)
+		return Response({"message":"Данные не найдены!"}, status=404)
