@@ -20,14 +20,19 @@ class UserSerializer(serializers.ModelSerializer):
 		fields = ('id', 'username', 'email', 'password')
 
 
+class UserDetailsSerializer(serializers.ModelSerializer): 
+	class Meta:
+		model = User
+		fields = ('id', 'username', 'first_name', 'last_name', 'email', 'usercustomer')
+
+
+class UserUpdateSerializer(serializers.ModelSerializer): 
+	class Meta:
+		model = User
+		fields = ('id', 'username', 'first_name', 'last_name', 'email')
+
+
 class UserCustomerSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = UserCustomer
-		fields = ('user', 'image', 'phone_number', 'user_role', 'birth_day', 'biography', 'user_ip', 'address', 'mail_index')
-
-
-
-class UserDetailsSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = User
-		fields = '__all__'
+		fields = ('__all__')

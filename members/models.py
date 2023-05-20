@@ -3,6 +3,15 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 
 
+USER_ROLE_SELF = 'Student'
+
+USER_ROLE_CHOICES = (
+	(USER_ROLE_SELF, USER_ROLE_SELF), 
+	('Teacher', 'Teacher'),
+	('Super admin', 'Super admin'),
+	('Admin', 'Admin')
+	)
+
 User = get_user_model()
 
 
@@ -18,14 +27,6 @@ def validate_phone_number(value):
 class UserCustomer(models.Model):
 	user = models.OneToOneField(User, on_delete = models.CASCADE)
 	image = models.ImageField(upload_to ='uploads/user/', verbose_name = 'Изоброжение', blank = True)
-
-	USER_ROLE_SELF = 'Студент'
-	USER_ROLE_CHOICES = (
-		(USER_ROLE_SELF, USER_ROLE_SELF), 
-		('Преподаватель', 'Преподаватель'),
-		('Супер админ', 'Супер админ'),
-		('Админ', 'Админ')
-	)
 	phone_number = models.IntegerField()
 	user_role 	 = models.CharField(verbose_name='Статус пользователья', choices = USER_ROLE_CHOICES, default=USER_ROLE_SELF, max_length=15, null=True)
 	birth_day 	 = models.DateTimeField(verbose_name = 'Дата рождение')

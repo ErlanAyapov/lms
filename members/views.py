@@ -2,11 +2,15 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from django.contrib.auth import get_user_model 
 from django.contrib.auth import authenticate, login, logout 
-from .serializer import UserRegisterSerializer, UserSerializer, LoginSerializer, UserCustomerSerializer
+from .serializer import *
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework import generics
-from .serializer import UserDetailsSerializer
+from rest_framework import generics 
+from rest_framework.views import APIView 
+from rest_framework import status
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import JSONParser  
 
 
 User = get_user_model()
@@ -21,7 +25,7 @@ def user(request: Request):
 
 
 @api_view(['POST'])
-def register_view(request):
+def register_view_api_view(request):
 	serializer = UserSerializer(data=request.data)
 
 	if serializer.is_valid():
@@ -33,7 +37,7 @@ def register_view(request):
 
 
 @api_view(['POST'])
-def login_view(request):
+def login_view_api_view(request):
 	serializer = LoginSerializer(data=request.data)
 
 	if serializer.is_valid():
@@ -51,13 +55,13 @@ def login_view(request):
 
 
 @api_view(['POST'])
-def logout_view(request):
+def logout_view_api_view(request):
 	logout(request)
 	return Response({'success': 'Выход из портала сделано!'})
 
 
 @api_view(['POST'])
-def user_customer(request):
+def user_customer_api_view(request):
 	serializer = UserCustomerSerializer(data = request.data)
 
 	if serializer.is_valid():
@@ -66,9 +70,53 @@ def user_customer(request):
 	else:
 		return Response(serializer.errors, status = 400)
 
+@api_view(['POST'])
+def user_customer_create(request):  
+	if request.method == 'POST':
+		serializer = UserCustomerSerializer(data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class ProfileDetailAPIView(generics.RetrieveUpdateAPIView):
-	serializer_class = UserDetailsSerializer
 
-	def get_object(self):
-		return self.request.user
+@api_view(['GET', 'PUT', 'DELETE'])
+def user_customer_detail(request, pk): 
+	try:
+		snippet = UserCustomer.objects.get(pk=pk)
+		if request.method == 'GET':
+			serializer = UserCustomerSerializer(snippet)
+			return Response(serializer.data)
+
+		elif request.method == 'PUT': 
+			serializer = UserCustomerSerializer(snippet, data=request.data)
+			if serializer.is_valid():
+				serializer.save()
+				return Response(serializer.data)
+			return Response(serializer.errors, status=400)
+
+		elif request.method == 'DELETE':
+			snippet.delete()
+			return HttpResponse(status=204)
+	except UserCustomer.DoesNotExist:
+		return Response(status=404)
+
+
+
+
+@api_view(['GET', 'PUT'])
+def user_detail(request, pk):
+	try:
+		user = User.objects.get(pk=pk)
+		if request.method == 'GET':
+			serializer = UserDetailsSerializer(user)
+			return Response(serializer.data)
+		elif request.method == 'PUT': 
+			serializer = UserUpdateSerializer(user, data=request.data)
+			if serializer.is_valid():
+				serializer.save()
+				return Response( UserDetailsSerializer(user).data )
+			return Response(serializer.errors, status=400)
+
+	except User.DoesNotExist:
+		return Response(status=404)
