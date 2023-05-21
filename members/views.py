@@ -41,7 +41,7 @@ def login_view_api_view(request):
 		user = authenticate(request, username = username, password = password)
 		if user is not None:
 			login(request, user)
-			return Response({'success': 'Авторизация пройдена!'}, status = 201) 
+			return Response(serializer.data, status = 201) 
 	return Response({"message":"Данные не корректный!"}, status = 400)
 
 
