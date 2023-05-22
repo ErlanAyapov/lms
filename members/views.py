@@ -12,7 +12,7 @@ User = get_user_model()
 
 @api_view(['POST'])
 def register_view_api_view(request):
-	serializer = UserSerializer(data=request.data)
+	serializer = UserRegisterSerializer(data=request.data)
 	
 	if serializer.is_valid():
 		password = serializer.validated_data['password']
