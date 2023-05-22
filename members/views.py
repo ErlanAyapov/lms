@@ -4,41 +4,34 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login, logout 
 from .serializers import *
 from rest_framework.request import Request
-from rest_framework.response import Response 
-# from rest_framework.views import APIView  
-
+from rest_framework.response import Response  
+from django.contrib.auth.hashers import make_password
 
 User = get_user_model()
-
- 
-@api_view()
-def user(request: Request):
-	return Response({
-		'data': UserSerializer(request.user).data
-	})
 
 
 @api_view(['POST'])
 def register_view_api_view(request):
 	serializer = UserSerializer(data=request.data)
-
+	
 	if serializer.is_valid():
-		user = serializer.save()
-		login(request, user)
-		return Response(serializer.data, status=201)
-
-	return Response({"message":"Данные не корректный!"}, status=400)
+		password = serializer.validated_data['password']
+		hashed_password = make_password(password)  # Хэширование пароля
+		serializer.validated_data['password'] = hashed_password
+		serializer.save()
+		return Response(serializer.data, status=201) 
+	return Response({"message": "Данные не корректные!"}, status=400)
 
 
 @api_view(['POST'])
 def login_view_api_view(request):
-	serializer = LoginSerializer(data=request.data)
+	serializer = LoginSerializer(data=request.data)  
 
 	if serializer.is_valid():
 		username = serializer.validated_data['username']
-		password = serializer.validated_data['password']
-
-		user = authenticate(request, username = username, password = password)
+		password = serializer.validated_data['password'] 
+		user = authenticate(request, username = username, password = password) 
+		
 		if user is not None:
 			login(request, user)
 			return Response(serializer.data, status = 201) 
