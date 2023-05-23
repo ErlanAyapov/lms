@@ -15,12 +15,10 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
-<<<<<<< HEAD
+# <<<<<<< HEAD
     path('api/feedback/', save_feedback),
-]
-=======
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
->>>>>>> origin
+# >>>>>>> origin
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
