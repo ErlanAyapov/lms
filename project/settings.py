@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders', 
     'ckeditor',
+    'contact',
 ]
 
 MIDDLEWARE = [

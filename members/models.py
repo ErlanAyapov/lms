@@ -1,4 +1,4 @@
-from django.db import models 
+from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 
@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 USER_ROLE_SELF = 'Student'
 
 USER_ROLE_CHOICES = (
-	(USER_ROLE_SELF, USER_ROLE_SELF), 
+	(USER_ROLE_SELF, USER_ROLE_SELF),
 	('Teacher', 'Teacher'),
 	('Super admin', 'Super admin'),
 	('Admin', 'Admin')
@@ -20,7 +20,7 @@ def validate_phone_number(value):
 	if value[0:2] != '+7' or value[0:2] != '87':
 		raise ValidationError('Код страны не соответствует!')
 
-	elif len(value) < 10 and len(value) > 13: 
+	elif len(value) < 10 and len(value) > 13:
 		raise ValidationError('Заполнено не корректно!')
 
 
