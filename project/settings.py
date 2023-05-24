@@ -25,7 +25,10 @@ ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost".split(",
 
 CORS_ORIGIN_WHITELIST = [
     'https://lms-astana-hub.vercel.app',
-    'https://lms-astana-kxkrzpwy3-yerzatcode.vercel.app'
+    'https://lms-astana-kxkrzpwy3-yerzatcode.vercel.app',
+    'https://127.0.0.1:3000',
+    'https://localhost:3000',
+
 ]
 
 # Application definition
