@@ -19,20 +19,11 @@ def register_view_api_view(request):
 	
 	if serializer.is_valid():
 		password = serializer.validated_data['password']
-		hashed_password = make_password(password)  # Хэширование пароля
+		hashed_password = make_password(password)
 		serializer.validated_data['password'] = hashed_password
 		serializer.save()
 		return Response(serializer.data, status=201) 
 	return Response({"message": "Данные не корректные!"}, status=400)
-
-
-class UserCreate(generics.GenericAPIView):
-	queryset = User.objects.all()
-	serializer_class = UserRegisterSerializer
-
-	def post(self, request, *args, **kwargs):
-		# print(self)
-		return self.create(request, *args, **kwargs)
 
 
 class UserCustomerCreate(generics.CreateAPIView):
