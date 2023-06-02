@@ -38,7 +38,7 @@ class UserCustomer(models.Model):
 	image = models.ImageField(upload_to ='uploads/user/', verbose_name = 'Изоброжение', blank = True)
 	phone_number = models.IntegerField()
 	user_role 	 = models.CharField(verbose_name='Статус пользователья', choices = USER_ROLE_CHOICES, default=USER_ROLE_SELF, max_length=15, null=True)
-	birth_day 	 = models.DateTimeField(verbose_name = 'Дата рождение')
+	birth_day 	 = models.DateField(verbose_name = 'Дата рождение')
 	age 		 = models.IntegerField(verbose_name = 'Возрасть', null=True)
 	gender 		 = models.CharField(verbose_name = 'Пол', choices = USER_GENDER_CHOICES, default = USER_GENDER_SELF, max_length = 7, null=True)
 	# Не обьязательные

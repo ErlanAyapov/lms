@@ -7,7 +7,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response  
 from django.contrib.auth.hashers import make_password
 from rest_framework import generics
-
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 
 User = get_user_model()
@@ -27,15 +27,18 @@ def register_view_api_view(request):
 
 
 class UserCustomerCreate(generics.CreateAPIView):
+	permission_classes = [IsAuthenticated]
 	queryset = UserCustomer.objects.all()
 	serializer_class = UserCustomerSerializer
 
 
 class UserCustomerDetail(generics.RetrieveUpdateDestroyAPIView):
+	permission_classes = [IsAuthenticatedOrReadOnly]
 	queryset = UserCustomer.objects.all()
 	serializer_class = UserCustomerSerializer
 
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+	permission_classes = [IsAuthenticatedOrReadOnly]
 	queryset = User.objects.all()
 	serializer_class = UserDetailsSerializer

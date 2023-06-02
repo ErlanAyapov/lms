@@ -11,6 +11,7 @@ urlpatterns = [
     path('', main_view, name ='main'),
     path('members/', include('members.urls')),
     path('api/feedback/', save_feedback),
+    path('auth/', include('djoser.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
