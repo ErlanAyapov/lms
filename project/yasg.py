@@ -7,7 +7,7 @@ from drf_yasg import openapi
 schema_view = get_schema_view(
    openapi.Info(
       title="LMS for ASTANA HUB",
-      default_version='v0.1.38',
+      default_version='v0.1.39',
       description="""
          This is an LMS for Astana HUB. Developed on the basis of the LMS Case Cup competition.
 

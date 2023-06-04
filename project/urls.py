@@ -9,7 +9,7 @@ from .yasg import urlpatterns as doc_urls
 urlpatterns = [
     path('admin/', admin.site.urls),  
     path('members/', include('members.urls')),
-    # path('api/feedback/', save_feedback),
+    path('api/feedback/', save_feedback),
     # path('auth/', include('djoser.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
