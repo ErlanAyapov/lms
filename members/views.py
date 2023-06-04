@@ -8,7 +8,8 @@ from rest_framework.response import Response
 from django.contrib.auth.hashers import make_password
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-
+from rest_framework.views import APIView
+from .models import UserCustomer
 
 User = get_user_model()
 
@@ -38,7 +39,16 @@ class UserCustomerDetail(generics.RetrieveUpdateDestroyAPIView):
 	serializer_class = UserCustomerSerializer
 
 
-class UserDetail(generics.RetrieveUpdateDestroyAPIView):
-	permission_classes = [IsAuthenticatedOrReadOnly]
-	queryset = User.objects.all()
-	serializer_class = UserDetailsSerializer
+class UserDetail(APIView):
+	permission_classes = (IsAuthenticated,)
+
+	def get(self, request, *args, **kwargs): 
+		serializer = UserDetailsSerializer(request.user)
+		return Response(serializer.data)
+
+	def put(self, request):
+		serializer = UserDetailsSerializer(request.user, data=request.data, partial=True)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data)
+		return Response(serializer.errors)
