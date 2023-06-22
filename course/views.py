@@ -31,18 +31,13 @@ class TaskCreate(generics.CreateAPIView):
 	permissions = [IsAuthenticated]
 	queryset = Task.objects.all()
 	serializer_class = TaskSerializer
-
-
-# class CourseDetails(generics.RetrieveUpdateAPIView):
-# 	# permission_classes = [IsAuthenticated]
-# 	queryset = Course.objects.all()
-# 	serializer_class = CourseDetailsSerializer
-
+ 
 
 class CourseList(generics.ListAPIView):
 	queryset = Course.objects.all()
 	serializer_class = CourseSerializer
 	permission_classes = [IsAuthenticated]
+
 
 class LessonRetrieveUpdateDetails(generics.RetrieveUpdateAPIView):
 	# permission_classes = [IsAuthenticated]
@@ -51,9 +46,8 @@ class LessonRetrieveUpdateDetails(generics.RetrieveUpdateAPIView):
 
 
 class CourseDetails(APIView):
-	"""
-	Retrieve, update or delete a snippet instance.
-	"""
+	permission_classes = [IsAuthenticated]
+
 	def get_course(self, pk):
 		try:
 			return Course.objects.get(pk=pk)
@@ -96,6 +90,7 @@ class CourseDetails(APIView):
 
 
 class LessonDetails(APIView):
+	permission_classes = [IsAuthenticated]
 
 	def get_lesson(self, pk):
 		try:
