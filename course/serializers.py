@@ -1,26 +1,43 @@
 from rest_framework import serializers
-from .models import *
+from .models import * 
+from django.contrib.auth.models import User
+
+class UserSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = User
+		fields = ('id', 'username', 'first_name', 'last_name')
 
 
-class CourseCreateSerializer(serializers.ModelSerializer):
+class CourseSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Course
 		fields = ('__all__')
 
 
-class LessonCreateSerializer(serializers.ModelSerializer):
+class LessonSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Lesson
-		fields = ('__all__')
+		fields = ('course', 'start_time', 'end_time', 'title')
 
 
-class LectureCreateSerializer(serializers.ModelSerializer):
+class LectureSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Lecture
 		fields = ('__all__')
 
 
-class TaskCreateSerializer(serializers.ModelSerializer):
+class TaskSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Task
 		fields = ('__all__')
+
+
+class CourseDetailsSerializer(serializers.ModelSerializer):
+	lessons  = LessonSerializer(many = True, read_only = True)
+	teachers = UserSerializer(many = True, read_only = True)
+	students = UserSerializer(many = True, read_only = True)
+
+	class Meta:
+		model = Course
+		fields = ('id', 'teachers', 'students', 'title', 'description', 'start_time', 'end_time', 'price', 'lessons')
+		read_only_fields = fields

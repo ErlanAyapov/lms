@@ -10,4 +10,7 @@ urlpatterns = [
     path('lesson-create/', LessonCreate.as_view()),
     path('lecture-create/', LectureCreate.as_view()),
     path('task-create/', TaskCreate.as_view()),
+    path('<int:pk>/', CourseDetails.as_view()),
+    path('', CourseList.as_view()),
+    path('lesson/<int:pk>', LessonDetails.as_view())
 ]

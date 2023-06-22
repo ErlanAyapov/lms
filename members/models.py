@@ -51,7 +51,9 @@ class UserCustomer(models.Model):
 	# notactive_course
 	# university
 
-
-
 	def __str__(self):
 		return self.user.username
+
+	class Meta:
+		verbose_name 		= 'Дополнительный данный'
+		verbose_name_plural	= 'Дополнительные данные'
