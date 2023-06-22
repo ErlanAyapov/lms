@@ -44,7 +44,7 @@ class CourseList(generics.ListAPIView):
 	serializer_class = CourseSerializer
 	permission_classes = [IsAuthenticated]
 
-class LessonDetails(generics.RetrieveUpdateAPIView):
+class LessonRetrieveUpdateDetails(generics.RetrieveUpdateAPIView):
 	# permission_classes = [IsAuthenticated]
 	queryset = Lesson.objects.all()
 	serializer_class = LessonSerializer
@@ -93,3 +93,45 @@ class CourseDetails(APIView):
 		course = self.get_course(pk)
 		course.delete()
 		return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class LessonDetails(APIView):
+
+	def get_lesson(self, pk):
+		try:
+			return Lesson.objects.get(pk=pk)
+		except Lesson.DoesNotExist:
+			raise Http404
+
+	def get_lectures(self, pk):
+		try:
+			return Lecture.objects.filter(lesson=pk)
+		except Course.DoesNotExist:
+			raise Http404
+
+	def get_tasks(self, pk):
+		try:
+			return Task.objects.filter(lesson=pk)
+		except Course.DoesNotExist:
+			raise Http404
+	
+
+	def get(self, request, pk, format=None):
+		lesson 	 = self.get_lesson(pk)
+		lectures = self.get_lectures(pk)
+		tasks 	 = self.get_tasks(pk)
+
+		data = LessonDetailsSerializer(lesson).data
+
+		# Сериализуем каждый объект Lesson
+		lecture_serializer = LectureSerializer(lectures, many=True)
+		lecture_data = lecture_serializer.data
+
+		# Сериализуем каждый объект Task
+		task_serializer = TaskSerializer(tasks, many=True)
+		tasks_data = task_serializer.data
+
+		# Добавляем данные уроков к данным курса
+		data['lectures'] = lecture_data
+		data['tasks'] = tasks_data
+		return Response(data)

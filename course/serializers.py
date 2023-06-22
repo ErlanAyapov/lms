@@ -41,3 +41,13 @@ class CourseDetailsSerializer(serializers.ModelSerializer):
 		model = Course
 		fields = ('id', 'teachers', 'students', 'title', 'description', 'start_time', 'end_time', 'price', 'lessons')
 		read_only_fields = fields
+
+
+class LessonDetailsSerializer(serializers.ModelSerializer):
+	lectures	= LectureSerializer(many = True, read_only = True)
+	tasks		= TaskSerializer(many = True, read_only = True)
+	
+	class Meta:
+		model = Lesson
+		fields = ('course', 'start_time', 'end_time', 'title', 'lectures', 'tasks')
+		read_only_fields = fields

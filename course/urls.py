@@ -12,5 +12,6 @@ urlpatterns = [
     path('task-create/', TaskCreate.as_view()),
     path('<int:pk>/', CourseDetails.as_view()),
     path('', CourseList.as_view()),
+    path('lesson-retrieve-update/<int:pk>', LessonRetrieveUpdateDetails.as_view()),
     path('lesson/<int:pk>', LessonDetails.as_view())
 ]

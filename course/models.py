@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from members.models import UserCustomer, USER_ROLE_SELF
+from django.core.exceptions import ValidationError
 
 
 User = get_user_model()
@@ -10,9 +12,47 @@ TASK_TYPE_CHOICES = (
 	(TASK_TYPE_SELF, TASK_TYPE_SELF),
 	('Question', 'Question')
 )
+# |==============================|
+# |=		 Validators			=|
+# |==============================|
+def user_is_student(user):
+	# print(user.usercustomer.user_role)
+
+	if not isinstance(user, User):
+		raise ValidationError("Invalid User object.")
+	if not hasattr(user, 'usercustomer'):
+		raise ValidationError("User is not associated with UserCustomer.")
+	if not user.usercustomer.user_role:
+		raise ValidationError("User role is required.")
+	elif user.usercustomer.user_role == 'Student':
+		print(user.usercustomer.user_role)
+		return True
+	else:
+		raise ValidationError("User is not a student.")
+
+def user_is_teacher(user):
+	print(user.usercustomer.user_role)
+	print(user.usercustomer) 
+
+	if not isinstance(user, User):
+		raise ValidationError("Invalid User object.")
+	if not hasattr(user, 'usercustomer'):
+		raise ValidationError("User is not associated with UserCustomer.")
+	if not user.usercustomer.user_role:
+		raise ValidationError("User role is required.")
+	elif user.usercustomer.user_role == 'Teacher':
+		print(user.usercustomer.user_role)
+		return True
+	else:
+		raise ValidationError("User is not a teacher.")
 
 
+
+# |==============================|
+# |=		 Models				=|
+# |==============================|
 class Course(models.Model):
+	id 			= models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
 	teachers 	= models.ManyToManyField(User, verbose_name = 'Преподаватель', related_name = 'teacher')
 	students 	= models.ManyToManyField(User, verbose_name = 'Студенты', blank = True, related_name = 'student')
 	title 		= models.CharField('Название курса', max_length = 1000)
@@ -23,6 +63,16 @@ class Course(models.Model):
 
 	def __str__(self):
 		return self.title
+
+	# def clean(self):
+	# 	for teacher in self.teachers.all():
+	# 		user_is_teacher(teacher)
+	# 	for student in self.students.all():
+	# 		user_is_student(student)
+
+	# def save(self, *args, **kwargs):
+	# 	self.full_clean()  # Run full validation before saving
+	# 	super().save(*args, **kwargs)
 
 	class Meta:
 		verbose_name 		= 'Курс'
