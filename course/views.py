@@ -39,10 +39,28 @@ class CourseList(generics.ListAPIView):
 	permission_classes = [IsAuthenticated]
 
 
-class LessonRetrieveUpdateDetails(generics.RetrieveUpdateAPIView):
-	# permission_classes = [IsAuthenticated]
+class CourseRetrieveUpdateDetails(generics.RetrieveUpdateDestroyAPIView):
+	permission_classes = [IsAuthenticated]
+	queryset = Lesson.objects.all()
+	serializer_class = CourseSerializer
+
+
+class LessonRetrieveUpdateDetails(generics.RetrieveUpdateDestroyAPIView):
+	permission_classes = [IsAuthenticated]
 	queryset = Lesson.objects.all()
 	serializer_class = LessonSerializer
+
+
+class LectureRetrieveUpdateDetails(generics.RetrieveUpdateDestroyAPIView):
+	permission_classes = [IsAuthenticated]
+	queryset = Lesson.objects.all()
+	serializer_class = LectureSerializer
+
+
+class TaskRetrieveUpdateDetails(generics.RetrieveUpdateDestroyAPIView):
+	permission_classes = [IsAuthenticated]
+	queryset = Lesson.objects.all()
+	serializer_class = TaskSerializer
 
 
 class CourseDetails(APIView):

@@ -1,0 +1,48 @@
+ErlanAyapov (40):
+      first commit
+      added sign-up-in views
+      Updated registor error message
+      created new app
+      added main page
+      added register finish api
+      first commit
+      Changed user requests and addded user-customer requests
+      changed errors message
+      fixed
+      added jwt token
+      project configs for deploy
+      added Procfile
+      ttt
+      fix1
+      fixed auth bag
+      fixed reg bugs
+      changed settings
+      changed
+      changed
+      Merge branch 'main' of https://github.com/ErlanAyapov/lms
+      added urls
+      changed urls
+      edited functions
+      added new fields
+      added new conf
+      added new conf
+      added permissions for views
+      added new conf
+      added
+      added
+      added
+      updated
+      added new conf
+      fff
+      changed token configs
+      created course app
+      added course details
+      added lesson details
+      added permissons
+
+KfcEnjoyer (4):
+      Added contact
+      first commit
+      deleted if statement
+      Merge branch 'main' of https://github.com/ErlanAyapov/lms
+
